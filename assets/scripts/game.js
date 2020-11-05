@@ -4,7 +4,7 @@ const balloon = document.getElementsByClassName('balloon');
 
 
 const balloonColorGenerator = () => {
-    console.log(balloon.length);
+
     for(let i = 0 ; i< balloon.length ;i++)
     {
     const number = Math.floor(Math.random()*4);
@@ -20,18 +20,22 @@ const balloonColorGenerator = () => {
 
 }
 
-balloonColorGenerator();
-
 const popHandler = (index) => {
 
     balloon[index].classList.add('visible'); 
     checkAllBalloonsPopped();
 }
 
-for (let i = 0 ; i< balloon.length ; i++)
-{   
-    balloon[i].addEventListener('mouseover',popHandler.bind(null,i));
-}
+const clearData = () => {
+    const gameContainer = document.querySelector('.game-container');
+    gameContainer.style.display = 'flex';
+    const winScreen = document.querySelector('.result');
+    winScreen.style.display = 'none';
+    const resultMessage = winScreen.querySelector('h1');
+    resultMessage.textContent = "You";
+    const timeLeftEl = document.getElementById('time-left');
+    timeLeftEl.textContent = `${GAME_TIME_ALLOWED} s`;
+} 
 
 const EndOfGame = (result) => {
     const gameContainer = document.querySelector('.game-container');
@@ -43,7 +47,13 @@ const EndOfGame = (result) => {
         resultMessage.textContent += ' win!';
     else
         resultMessage.textContent += ' lost!';
+        
+    
+}
 
+const exitIntervals = () => {
+    clearInterval(window.interval1);
+    clearInterval(window.interval2);
 }
 
 const checkAllBalloonsPopped = () => {
@@ -55,7 +65,9 @@ const checkAllBalloonsPopped = () => {
             
         }
     if(numberOfPoppedBalloons === BALLOONS_INGAME)
-       EndOfGame('win');
+       {EndOfGame('win');
+        exitIntervals(); 
+        }
             
 }
 
@@ -70,8 +82,37 @@ const updateTimeLeft = () => {
     const timeLeftEl = document.getElementById('time-left');
     timeLeftEl.textContent = `${gameTime} s`; 
     if(gameTime === 0)
-        EndOfGame('lost');
+        {EndOfGame('lost');
+        exitIntervals();
+        }
 }
 
-setInterval(balloonRebirth, 1000);
-setInterval(updateTimeLeft,1000);
+const startNewGame = () => {
+    clearData();
+    gameTime = GAME_TIME_ALLOWED; 
+    for(let i = 0 ; i< balloon.length ;i++)
+        {balloon[i].classList.remove(balloon[i].classList[1]);
+        balloon[i].classList.remove('visible');   
+        }
+    balloonColorGenerator();
+    addIntervals();
+}
+
+const addIntervals = () => {
+    window.interval1 = setInterval(balloonRebirth, 1000);
+    window.interval2 = setInterval(updateTimeLeft,1000);
+    
+}
+
+const startGame = () =>{
+    balloonColorGenerator();
+    addIntervals();
+    //add listeners
+    const newGameBtn = document.getElementById('restart-btn');
+    newGameBtn.addEventListener('click',startNewGame);
+    for (let i = 0 ; i< balloon.length ; i++){   
+        balloon[i].addEventListener('mouseover',popHandler.bind(null,i));
+    }
+}
+
+startGame();

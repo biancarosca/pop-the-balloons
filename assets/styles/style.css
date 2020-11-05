@@ -62,4 +62,21 @@ h1{
     display: none;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+
+#restart-btn {
+    margin-top: 1.5rem;
+    font-family: "Poppins",sans-serif;
+    background-color: #1e3d59;
+    font-size: 0.8rem;
+    color:#f5f0e1;
+    text-decoration: none;
+    border: none;
+    padding: 0.5rem 1rem;
+}
+
+#restart-btn:hover {
+    background-color:#305a7f;
+    transform: scale(1.1);
 }
