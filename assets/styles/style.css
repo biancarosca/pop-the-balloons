@@ -57,9 +57,9 @@ h1{
     background-color: #f5f0e1;
 }
 
-.win { 
+.result { 
     height: 100vh;
-    display: hidden;
+    display: none;
     justify-content: center;
     align-items: center;
 }

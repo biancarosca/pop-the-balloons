@@ -1,6 +1,7 @@
 const BALLOONS_INGAME = 80;
-
+const GAME_TIME_ALLOWED = 60; // seconds
 const balloon = document.getElementsByClassName('balloon');
+
 
 const balloonColorGenerator = () => {
     console.log(balloon.length);
@@ -24,7 +25,7 @@ balloonColorGenerator();
 const popHandler = (index) => {
 
     balloon[index].classList.add('visible'); 
-    checkEndofGame();
+    checkAllBalloonsPopped();
 }
 
 for (let i = 0 ; i< balloon.length ; i++)
@@ -32,7 +33,20 @@ for (let i = 0 ; i< balloon.length ; i++)
     balloon[i].addEventListener('mouseover',popHandler.bind(null,i));
 }
 
-const checkEndofGame = () => {
+const EndOfGame = (result) => {
+    const gameContainer = document.querySelector('.game-container');
+    gameContainer.style.display = 'none';
+    const winScreen = document.querySelector('.result');
+    const resultMessage = winScreen.querySelector('h1');
+    winScreen.style.display = 'flex';
+    if(result === 'win')
+        resultMessage.textContent += ' win!';
+    else
+        resultMessage.textContent += ' lost!';
+
+}
+
+const checkAllBalloonsPopped = () => {
     let numberOfPoppedBalloons = 0 ; 
     for ( let i=0 ; i< balloon.length ; i++)
         { 
@@ -41,12 +55,23 @@ const checkEndofGame = () => {
             
         }
     if(numberOfPoppedBalloons === BALLOONS_INGAME)
-        {
-            const winScreen = document.querySelector('.win');
-            const gameContainer = document.querySelector('.game-container');
-            gameContainer.style.display = 'none';
-            winScreen.style.display = 'flex';
-            console.log('End of Game');
-            console.log(winScreen.style.display);
-        }
+       EndOfGame('win');
+            
 }
+
+const balloonRebirth = () => {
+    const indexToRevive = Math.floor(Math.random()*BALLOONS_INGAME);
+    balloon[indexToRevive].classList.remove('visible');
+}
+
+let gameTime = GAME_TIME_ALLOWED;
+const updateTimeLeft = () => {
+    gameTime--;
+    const timeLeftEl = document.getElementById('time-left');
+    timeLeftEl.textContent = `${gameTime} s`; 
+    if(gameTime === 0)
+        EndOfGame('lost');
+}
+
+setInterval(balloonRebirth, 1000);
+setInterval(updateTimeLeft,1000);
