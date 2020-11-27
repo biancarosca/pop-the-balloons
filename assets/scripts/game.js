@@ -1,7 +1,25 @@
-const BALLOONS_INGAME = 80;
 const GAME_TIME_ALLOWED = 60; // seconds
-const balloon = document.getElementsByClassName('balloon');
+const BALLOON_WIDTH = 50; //30px + 20px margin
+const BALLOON_HEIGHT = 50; //30px + 20px margin
+const numberOfBalloonsPerLine = Math.floor(window.screen.width*0.6/BALLOON_WIDTH);
+const numberOfBallonsPerColumn =  Math.floor((window.screen.height*0.6-15)/BALLOON_HEIGHT);
+const BALLOONS_INGAME = numberOfBallonsPerColumn*numberOfBalloonsPerLine;
 
+
+const createBalloons = () => {
+    let balloonContainer = document.querySelector('.balloons-container');
+    for(let j=0 ; j<numberOfBallonsPerColumn ;j++)
+    {let row = document.createElement('div');
+    row.classList.add('row');
+    balloonContainer.appendChild(row);
+        for (let i=0 ; i< numberOfBalloonsPerLine ; i++ )
+            {   row = balloonContainer.querySelectorAll('.row')[j];
+                let balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                row.appendChild(balloon);
+            }
+    }
+}
 
 const balloonColorGenerator = () => {
 
@@ -115,4 +133,6 @@ const startGame = () =>{
     }
 }
 
+createBalloons();
+const balloon = document.getElementsByClassName('balloon');
 startGame();

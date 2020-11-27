@@ -7,6 +7,7 @@
 body{
     font-family: "Poppins",sans-serif;
     background-color: #f5f0e1;
+    overflow-x: hidden;
 
 }
 
@@ -18,8 +19,25 @@ body{
     height: 100vh;
 }
 
+.h1-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 15vh;
+    margin-top: 5%;
+}
+
+.balloons-container{
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
 h1{
     color: #1e3d59;
+    margin: 0 5%;
+    text-align: center;
 }
 
 
@@ -81,3 +99,8 @@ h1{
     transform: scale(1.1);
 }
 
+@media screen and (max-width:480px ){
+    h1{
+        font-size: 1.5rem;
+    }
+}
